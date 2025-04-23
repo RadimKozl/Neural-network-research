@@ -2587,7 +2587,7 @@ class LSTMMomentumAttention(nn.Module):
             torch.Tensor: Distance tensor, shape: [batch_size, seq_len]
         """        
         if self.distance_type == 'euclidean':
-            return torch.cdist(h_current.unsqueeze(0), previous_hidden_states, p=2).squeeze(0) + 1e-8
+            return torch.cdist(h_current.unsqueeze(1), previous_hidden_states, p=2).squeeze(1).squeeze(-1) + 1e-8
         elif self.distance_type == 'time':
             batch_size, seq_len, _ = previous_hidden_states.size()
             return torch.arange(seq_len, 0, -1).float().to(h_current.device).unsqueeze(0) + 1e-8
